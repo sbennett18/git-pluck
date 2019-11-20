@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+from __future__ import print_function
+
 import os
 import sys
 import subprocess                       # Python 2.4+
@@ -59,31 +61,37 @@ def main():
 
         # Get the relative path of the repo
         current_repo = os.path.relpath(root)
-        print "%s '%s'" % (
-            highlight(bcolors.BLUE, 'Entering'),
-            highlight(bcolors.ORANGE, current_repo)
+        print(
+            "%s '%s'"
+            % (
+                highlight(bcolors.BLUE, "Entering"),
+                highlight(bcolors.ORANGE, current_repo),
+            )
         )
 
         # Pass the command into each repository
         with pushd(root):
-            print highlight(bcolors.WHITE, ' '.join(command))
+            print(highlight(bcolors.WHITE, " ".join(command)))
             try:
                 subprocess.check_call(command, stdout=sys.stdout, stderr=sys.stderr)
             except subprocess.CalledProcessError as e:
-                if os.environ.get('GIT_PLUCK_EXIT_ON_ERROR'):
-                    print "%s '%s'" % (
-                        highlight(bcolors.RED, "Error performing command on repo"),
-                        highlight(bcolors.ORANGE, current_repo)
+                if os.environ.get("GIT_PLUCK_EXIT_ON_ERROR"):
+                    print(
+                        "%s '%s'"
+                        % (
+                            highlight(bcolors.RED, "Error performing command on repo"),
+                            highlight(bcolors.ORANGE, current_repo),
+                        )
                     )
                     sys.exit(1)
-            print
+            print()
 
 
 def help_exit():
     """Print usage then exit"""
-    print 'usage: git pluck [options] <command> [<args>]'
-    print
-    print '    --nogit\tdo not prepend \'git\' to the command'
+    print("usage: git pluck [options] <command> [<args>]")
+    print()
+    print("    --nogit\tdo not prepend 'git' to the command")
     sys.exit()
 
 if __name__ == '__main__':
